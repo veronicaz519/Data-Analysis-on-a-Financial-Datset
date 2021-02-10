@@ -1,0 +1,66 @@
+rm(list=ls())
+library(tidyverse)
+load("model.RData")
+prediction <- function(datainput){
+  data = datainput
+  data$X = 1:nrow(data)
+  table <- data %>% mutate(h3 = ifelse((h3 = X-3)<=1,1,h3),
+                           h10 = ifelse((h10 = X-10)<=1,1,h10),
+                           h30 = ifelse((h30 = X-30)<=1,1,h30), 
+                           h60 = ifelse((h60 = X-60)<=1,1,h60),
+                           h120 = ifelse((h120 = X-120)<=1,1,h120),
+                           h180 = ifelse((h180 = X-180)<=1,1,h180),
+                           h240 = ifelse((h240 = X-240)<=1,1,h240),
+                           h360 = ifelse((h360 = X-360)<=1,1,h360),
+                           h480 = ifelse((h480 = X-480)<=1,1,h480),
+                           h600 = ifelse((h600 = X-600)<=1,1,h600),
+                           h720 = ifelse((h720 = X-720)<=1,1,h720),
+                           h960 = ifelse((h960 = X-960)<=1,1,h960),
+                           h1200 = ifelse((h1200 = X-1200)<=1,1,h1200),
+                           h1440 = ifelse((h1440 = X-1440)<=1,1,h1440)) %>% 
+    mutate(Asset_1_BRet_3 = br_return(Asset_1,h3),
+           Asset_1_BRet_10 = br_return(Asset_1, h10),
+           Asset_1_BRet_30 = br_return(Asset_1, h30),
+           Asset_1_BRet_60 = br_return(Asset_1, h60),
+           Asset_1_BRet_120 = br_return(Asset_1, h120),
+           Asset_1_BRet_180 = br_return(Asset_1, h180),
+           Asset_1_BRet_240 = br_return(Asset_1, h240),
+           Asset_1_BRet_360 = br_return(Asset_1, h360),
+           Asset_1_BRet_480 = br_return(Asset_1, h480),
+           Asset_1_BRet_600 = br_return(Asset_1, h600),
+           Asset_1_BRet_720 = br_return(Asset_1, h720),
+           Asset_1_BRet_960 = br_return(Asset_1, h960),
+           Asset_1_BRet_1200 = br_return(Asset_1, h1200),
+           Asset_1_BRet_1440 = br_return(Asset_1, h1440),
+           Asset_2_BRet_3 = br_return(Asset_2,h3),
+           Asset_2_BRet_10 = br_return(Asset_2, h10),
+           Asset_2_BRet_30 = br_return(Asset_2, h30),
+           Asset_2_BRet_60 = br_return(Asset_2, h60),
+           Asset_2_BRet_120 = br_return(Asset_2, h120),
+           Asset_2_BRet_180 = br_return(Asset_2, h180),
+           Asset_2_BRet_240 = br_return(Asset_2, h240),
+           Asset_2_BRet_360 = br_return(Asset_2, h360),
+           Asset_2_BRet_480 = br_return(Asset_2, h480),
+           Asset_2_BRet_600 = br_return(Asset_2, h600),
+           Asset_2_BRet_720 = br_return(Asset_2, h720),
+           Asset_2_BRet_960 = br_return(Asset_2, h960),
+           Asset_2_BRet_1200 = br_return(Asset_2, h1200),
+           Asset_2_BRet_1440 = br_return(Asset_2, h1440),
+           Asset_3_BRet_3 = br_return(Asset_3,h3),
+           Asset_3_BRet_10 = br_return(Asset_3, h10),
+           Asset_3_BRet_30 = br_return(Asset_3, h30),
+           Asset_3_BRet_60 = br_return(Asset_3, h60),
+           Asset_3_BRet_120 = br_return(Asset_3, h120),
+           Asset_3_BRet_180 = br_return(Asset_3, h180),
+           Asset_3_BRet_240 = br_return(Asset_3, h240),
+           Asset_3_BRet_360 = br_return(Asset_3, h360),
+           Asset_3_BRet_480 = br_return(Asset_3, h480),
+           Asset_3_BRet_600 = br_return(Asset_3, h600),
+           Asset_3_BRet_720 = br_return(Asset_3, h720),
+           Asset_3_BRet_960 = br_return(Asset_3, h960),
+           Asset_3_BRet_1200 = br_return(Asset_3, h1200),
+           Asset_3_BRet_1440 = br_return(Asset_3, h1440))
+  table = table %>% dplyr::select(c(19:ncol(table)))
+  last = tail(table, n=1)
+  return(get_pred(coef, last))
+}
